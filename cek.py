@@ -26,9 +26,7 @@ while (True):
         # print(current_time) 
         url = 'https://wmsapp.pythonanywhere.com/wmsapp/'
         myobj = {
-          'value': data_str,
-          'tanggal' : hari,
-          'jam' : current_time
+          'value': data_str
                     }
         x = requests.post(url, data = myobj)
 
