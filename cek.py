@@ -13,28 +13,36 @@ while (True):
     
         now = datetime.now()
         today = date.today()
-
+        temperature = 0
+        ppm = 0
         hari = today.strftime("%B %d, %Y")
 
         current_time = now.strftime("%H:%M:%S")
-        # read the bytes and convert from binary array to ASCII
         data_str = ser.read(ser.inWaiting()).decode('ascii') 
-        # print the incoming string without putting a new-line
-        # ('\n') automatically after every print()
-        # value = data_str,end=''
-        # print(value) 
-        # print(current_time) 
+
+        # print(data_str)
+
+        raw = data_str.split(",", 1)
+        temperature = raw[0]
+        ppm = raw[1]
+
+        print(temperature, ppm)
+     
         url = 'https://wmsapp.pythonanywhere.com/wmsapp/'
         myobj = {
-          'value': data_str
+          'value': ppm
                     }
         x = requests.post(url, data = myobj)
 
+        Turl = 'http://wmsapp.pythonanywhere.com/temperature/'
+        Tmyobj = {
+          'Tvalue': temperature
+                    }
+        Tx = requests.post(Turl, data = Tmyobj)
 
+
+        print(Tx.text)
         print(x.text)
 
-    # Put the rest of your code you want here
-    
-    # Optional, but recommended: sleep 10 ms (0.01 sec) once per loop to let 
-    # other threads on your PC run during this time. 
+
     time.sleep(0.01) 
